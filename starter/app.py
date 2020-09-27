@@ -4,7 +4,7 @@ from sqlalchemy import exc
 import json
 from flask_cors import CORS
 
-from .database.models import db_drop_and_create_all, setup_db, Drink
+from .database.models import db_drop_and_create_all, setup_db, Movie, Actor
 from .auth.auth import AuthError, requires_auth
 
 app = Flask(__name__)
@@ -22,6 +22,29 @@ db_drop_and_create_all()
 '''
 TODO: implement the routes and the endpoints 
 '''
+
+@app.route('/movies', methods = ['GET'])
+def get_movies(): 
+  movies = Movie.query.all()
+  movies = [movie.format() for movie in movies]
+
+  return jsonify({
+    'success': True,
+    'movies': movies
+  }), 200
+
+@app.route('/actors', methods = ['GET'])
+def get_actors(): 
+  actors = Actor.query.all()
+  actors = [actor.format() for actor in actors]
+  
+  return jsonify({
+    'success': True,
+    'actors': actors
+  }), 200
+
+
+
 
 
 
