@@ -3,20 +3,31 @@ from flask import Flask, request, jsonify, abort
 from sqlalchemy import exc
 import json
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from models import Movie, Actor
+from auth import AuthError, requires_auth
 
-from .database.models import db_drop_and_create_all, setup_db, Movie, Actor
-from .auth.auth import AuthError, requires_auth
+
 
 app = Flask(__name__)
-setup_db(app)
-CORS(app)
+database_filename = "database.db"
+project_dir = os.path.dirname(os.path.abspath(__file__))
+database_path = "sqlite:///{}".format(os.path.join(project_dir, database_filename))
+
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 '''
 @TODO uncomment the following line to initialize the datbase
 !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 '''
-db_drop_and_create_all()
+#db_drop_and_create_all()
 
 # ROUTES
 '''
@@ -37,7 +48,7 @@ def get_movies():
 def get_actors(): 
   actors = Actor.query.all()
   actors = [actor.format() for actor in actors]
-  
+
   return jsonify({
     'success': True,
     'actors': actors
