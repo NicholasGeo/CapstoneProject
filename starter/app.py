@@ -4,8 +4,7 @@ from sqlalchemy import exc
 import json
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from models import Movie, Actor
+from models import *
 from auth import AuthError, requires_auth
 
 
@@ -20,7 +19,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = database_path
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
 '''
 @TODO uncomment the following line to initialize the datbase
@@ -124,3 +122,5 @@ def auth_error(error):
         "error": error.status_code,
         "message": error.error['description']
         }), error.status_code
+
+

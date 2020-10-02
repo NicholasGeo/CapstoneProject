@@ -1,4 +1,26 @@
-from app import db
+import os
+from sqlalchemy import Column, String, create_engine
+from flask_sqlalchemy import SQLAlchemy
+import json
+
+
+database_filename = "database.db"
+project_dir = os.path.dirname(os.path.abspath(__file__))
+database_path = "sqlite:///{}".format(os.path.join(project_dir, database_filename))
+
+
+db = SQLAlchemy()
+
+'''
+setup_db(app)
+    binds a flask application and a SQLAlchemy service
+'''
+def setup_db(app, database_path=database_path):
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.app = app
+    db.init_app(app)
+    db.create_all()
 
 
 class Movie(db.Model):
@@ -7,8 +29,8 @@ class Movie(db.Model):
     '''
     __tablename__ = 'movie'
 
-    id = db.Column(Integer, primary_key = True)
-    title = db.Column(String)
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String)
     actors = db.relationship('Actor', backref='movies', lazy=True)
 
     def fomat(self):
@@ -63,12 +85,12 @@ class Actor(db.Model):
 
     __tablename__ = 'actor'
 
-    id = db.Column(Integer, primary_key = True)
-    name = db.Column(String)
-    surname = db.Column(String)
-    age = db.Column(Integer)
-    gender = db.Column(String)
-    movie_id = db.Column(Integer, ForeignKey('movie.id'))
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String)
+    surname = db.Column(db.String)
+    age = db.Column(db.Integer)
+    gender = db.Column(db.String)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))
 
     def fomat(self):
         return({
