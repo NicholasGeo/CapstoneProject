@@ -31,13 +31,13 @@ class Movie(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String)
-    actors = db.relationship('Actor', backref='movies', lazy=True)
+    release_date = db.Column(db.String)
 
-    def fomat(self):
+    def format(self):
         return({
             'id': self.id,
             'title': self.title,
-            'actors': self.actors
+            'release_date': self.release_date
         })
 
 
@@ -92,7 +92,7 @@ class Actor(db.Model):
     gender = db.Column(db.String)
     movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))
 
-    def fomat(self):
+    def format(self):
         return({
             'id': self.id,
             'name': self.name,
