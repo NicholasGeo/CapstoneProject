@@ -18,7 +18,7 @@ class CapstoneProjectTests(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "capstone"
-        self.database_path = "postgres://{}/{}".format('postgres:Wtfpwnt12345!?@localhost:5432', self.database_name)
+        self.database_path = "postgres://{}/{}".format('postgres:@localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
 
         # binds the app to the current context
@@ -193,3 +193,61 @@ class CapstoneProjectTests(unittest.TestCase):
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'unprocessable')    
+
+    '''Auth / Authz Tests'''
+
+    # create actor with the wrong permissions
+
+    def test_create_actor_401(self):
+        res = self.client().post('/actors', json = {'name' : 'testing', 'surname':'testing', 'gender' : 'male', 'age':1}, headers = { 'Authorization': casting_assistant_token})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'Permission not found in payload')
+
+    # delete movie with the mising permissions
+
+    def test_delete_actor_401(self):
+        res = self.client().delete(f'/actors/1')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], ' Authorisation header is expected')
+
+    # update actor with the wrong permission 
+    def test_patch_actors_401(self):
+        res = self.client().patch('/actors/1/edit', json = {'name' : 'testier'}, headers = { 'Authorization': casting_assistant_token})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'Permission not found in payload')
+
+    # update movie with the wrong permission 
+    def test_patch_movie_401(self):
+        res = self.client().patch('/movies/1/edit', json = {'title' : 'testier'}, headers = { 'Authorization': casting_assistant_token})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'Permission not found in payload')
+
+    # get all movies without permissions
+    def test_get_movies_401(self):
+        res = self.client().get('/movies')
+        data = json.loads(res.data)
+        
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], ' Authorisation header is expected')
+
+    # get all actors without permissions
+    def test_get_actors_401(self):
+        res = self.client().get('/actors')
+        data = json.loads(res.data)
+        
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], ' Authorisation header is expected')
