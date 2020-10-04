@@ -6,9 +6,9 @@ from urllib.request import urlopen
 
 #config for auth
 
-AUTH0_DOMAIN = 'add the url here'
+AUTH0_DOMAIN = 'dev-c5k5ak84.eu.auth0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'dev'
+API_AUDIENCE = 'capstone'
 
 # AuthError Exception
 '''

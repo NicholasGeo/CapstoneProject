@@ -35,7 +35,8 @@ def create_app(test_config=None):
   # Get the movies
 
   @app.route('/movies', methods = ['GET'])
-  def get_movies(): 
+  @requires_auth('read:movies')
+  def get_movies(token): 
     movies = Movie.query.all()
     movies = [movie.format() for movie in movies]
 
@@ -48,7 +49,8 @@ def create_app(test_config=None):
   # Get the actors
 
   @app.route('/actors', methods = ['GET'])
-  def get_actors(): 
+  @requires_auth('read:actors')
+  def get_actors(token): 
     actors = Actor.query.all()
     actors = [actor.format() for actor in actors]
 
@@ -60,7 +62,8 @@ def create_app(test_config=None):
   # Delete an actor
 
   @app.route('/actors/<int:id>', methods = ['DELETE'])
-  def delete_actors(id): 
+  @requires_auth('delete:actor')
+  def delete_actors(token, id): 
     actor = Actor.query.get(id)
 
     if actor is None:
@@ -76,7 +79,8 @@ def create_app(test_config=None):
   # Delete a movie
 
   @app.route('/movies/<int:id>', methods = ['DELETE'])
-  def delete_movies( id): 
+  @requires_auth('delete:movie')
+  def delete_movies(token, id): 
     movie = Movie.query.get(id)
 
     if movie is None:
@@ -92,7 +96,8 @@ def create_app(test_config=None):
   # Add a new actor
 
   @app.route('/actors',methods=['POST'])
-  def add_actor():
+  @requires_auth('create:actor')
+  def add_actor(token):
       json_payload = request.get_json()
 
       if not json_payload:
@@ -115,7 +120,8 @@ def create_app(test_config=None):
   # Add a new movie
 
   @app.route('/movies',methods=['POST'])
-  def add_movie():
+  @requires_auth('create:movie')
+  def add_movie(token):
       json_payload = request.get_json()
 
       if not json_payload:
@@ -137,7 +143,8 @@ def create_app(test_config=None):
 
   # update a movie 
   @app.route('/movies/<int:id>/edit',methods=['PATCH'])
-  def edit_movie(id):
+  @requires_auth('edit:movies')
+  def edit_movie(token, id):
       updated_movie = Movie.query.filter(Movie.id == id).one_or_none()
 
       if not updated_movie:
@@ -170,7 +177,8 @@ def create_app(test_config=None):
 
   # update an actor 
   @app.route('/actors/<int:id>/edit',methods=['PATCH'])
-  def edit_actor(id):
+  @requires_auth('edit:actors')
+  def edit_actor(token, id):
       updated_actor = Actor.query.filter(Actor.id == id).one_or_none()
 
       if not updated_actor:
