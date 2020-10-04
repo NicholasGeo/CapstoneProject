@@ -90,7 +90,7 @@ class Actor(db.Model):
     surname = db.Column(db.String)
     age = db.Column(db.Integer)
     gender = db.Column(db.String)
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))
+
 
     def format(self):
         return({
