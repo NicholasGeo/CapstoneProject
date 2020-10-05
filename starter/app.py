@@ -10,9 +10,7 @@ from auth import AuthError, requires_auth
 def create_app(test_config=None):
 
   app = Flask(__name__)
-  database_filename = "database.db"
-  project_dir = os.path.dirname(os.path.abspath(__file__))
-  database_path = "sqlite:///{}".format(os.path.join(project_dir, database_filename))
+  database_path = os.environ['DATABASE_URL']
 
 
   app.config["SQLALCHEMY_DATABASE_URI"] = database_path
