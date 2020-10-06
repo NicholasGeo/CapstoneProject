@@ -10,13 +10,8 @@ from auth import AuthError, requires_auth
 def create_app(test_config=None):
 
   app = Flask(__name__)
-  database_path = os.environ['DATABASE_URL']
-
-
-  app.config["SQLALCHEMY_DATABASE_URI"] = database_path
-  app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-  db = SQLAlchemy(app)
+  setup_db(app)
+  CORS(app)
 
   '''
   @TODO uncomment the following line to initialize the datbase
