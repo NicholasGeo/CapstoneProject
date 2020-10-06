@@ -249,4 +249,19 @@ The error responses are in the following format:
 }
 ```
 
+## Authentication 
+
+Auth0 is used to handle the Authentication and Authorisation for the API endpoints. You may need to set up Auth0 to access the API endpoints when running the app locally and create the roles below along with the permissions required for each API call. 
+
+There are three distinct roles for this project:
+
+1. Casting Assistant
+    - Can view actors and movies
+2. Casting Director 
+    - All permissions a Casting Assistant has and…
+    - Add or delete an actor from the database
+    - Modify actors or movies
+3. Executive Director
+    - All permissions a Casting Director has and…
+    - Add or delete a movie from the database
 
