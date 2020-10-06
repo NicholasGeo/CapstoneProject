@@ -80,235 +80,91 @@ https://movieprojectnat.herokuapp.com
 ```
 
 ```
-GET '/actors'
-GET '/movies'
+GET '/actors' - requires permissions "read:actors"
+GET '/movies' - requires permissions "read:movies"
 
-POST '/actors'
-POST '/movies'
+POST '/actors' - requires permissions "write:actors"
+POST '/movies' - requires permissions "write:movies"
 
-Patch '/actors/<int:actor_id>/edit'
-Patch '/movies/<int:movie_id>/edit'
+Patch '/actors/<int:actor_id>/edit' - requires permissions "edit:actors"
+Patch '/movies/<int:movie_id>/edit' - requires permissions "edit:movies"
 
-DELETE '/movies/<int:movie_id>'
-DELETE '/actors/<int:actor_id>'
+DELETE '/movies/<int:movie_id>' - requires permissions "delete:actors"
+DELETE '/actors/<int:actor_id>' - requires permissions "delete:movies"
 
 ```
 
 GET '/actors'
 
 - General:
-    - Fetches a dictionary of actors in which the keys are the ids  and the value is the corresponding string of the actors
+    - Fetches a dictionary of actors
     - Request Arguments: None
-    - Returns: An object with a single key, actors, that contains a object of id: category_string key:value pairs.
-- curl http://127.0.0.1:5000/categories
+    - Returns: An object with five keys:
+        - id
+        - name
+        - surname
+        - gender
+        - age
+- curl https://movieprojectnat.herokuapp.com/actors
 - Example response: 
 ```
- "categories": {
-    "1": "Science",
-    "2": "Art",
-    "3": "Geography",
-    "4": "History",
-    "5": "Entertainment",
-    "6": "Sports"
-  },
-  "success": true
-}
+ 
 ```
-'GET '/questions'
+'GET '/movies'
 - General:
-    - Fetches a dictionary of paginated questions, displaying 10 results per page. 
-    - Fetches a list of the categories which the key is the id of the cateogry and the value is the type of the category. 
-    - Fetches the total number of questions
+    - Fetches a dictionary of movies. 
     - Request Arguments: None
-    - Returns: An object with a four keys, categories, current_cateogories, questions, total_questions.
-- curl http://127.0.0.1:5000/questions
+    - Returns: An object with three keys:
+        - id
+        - title
+        - release_date
+- curl https://movieprojectnat.herokuapp.com/movies
 -Example response:
 
 ```
-  "categories": {
-    "1": "Science",
-    "2": "Art",
-    "3": "Geography",
-    "4": "History",
-    "5": "Entertainment",
-    "6": "Sports"
-  },
-  "current_categories": null,
-  "questions": [
-    {
-      "answer": "Apollo 13",
-      "category": 5,
-      "difficulty": 4,
-      "id": 2,
-      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
-    },
-    {
-      "answer": "Tom Cruise",
-      "category": 5,
-      "difficulty": 4,
-      "id": 4,
-      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
-    },
-    {
-      "answer": "Maya Angelou",
-      "category": 4,
-      "difficulty": 2,
-      "id": 5,
-      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
-    },
-    {
-      "answer": "Edward Scissorhands",
-      "category": 5,
-      "difficulty": 3,
-      "id": 6,
-      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
-    },
-    {
-      "answer": "Muhammad Ali",
-      "category": 4,
-      "difficulty": 1,
-      "id": 9,
-      "question": "What boxer's original name is Cassius Clay?"
-    },
-    {
-      "answer": "Brazil",
-      "category": 6,
-      "difficulty": 3,
-      "id": 10,
-      "question": "Which is the only team to play in every soccer World Cup tournament?"
-    },
-    {
-      "answer": "George Washington Carver",
-      "category": 4,
-      "difficulty": 2,
-      "id": 12,
-      "question": "Who invented Peanut Butter?"
-    },
-    {
-      "answer": "Lake Victoria",
-      "category": 3,
-      "difficulty": 2,
-      "id": 13,
-      "question": "What is the largest lake in Africa?"
-    },
-    {
-      "answer": "The Palace of Versailles",
-      "category": 3,
-      "difficulty": 3,
-      "id": 14,
-      "question": "In which royal palace would you find the Hall of Mirrors?"
-    },
-    {
-      "answer": "Agra",
-      "category": 3,
-      "difficulty": 2,
-      "id": 15,
-      "question": "The Taj Mahal is located in which Indian city?"
-    }
-  ],
-  "success": true,
-  "total_questions": 45
-}
-
-```
-GET '/categories/<category_id>/questions'
-- General:
-    - Fetches the current category
-    - Fetches a dictionary of questions linked the category passed in "category_id".  
-    - Fetches the total number of questions
-    - Request Arguments: None
-    - Returns: An object with a four keys, categories, current_cateogories, questions, total_questions.
-- curl http://127.0.0.1:5000/categories/1/questions
-- Example response:
-```  
-  "current_category": 2,
-  "questions": [
-    {
-      "answer": "test",
-      "category": 1,
-      "difficulty": 1,
-      "id": 25,
-      "question": "test"
-    },
-    {
-      "answer": "test",
-      "category": 1,
-      "difficulty": 1,
-      "id": 26,
-      "question": "test"
-    },
-  ],
-  "success": true,
-  "total_questions": 2
-}
-
+  
 ```
 
-POST '/questions'
+POST '/actors'
 - General:
-    - Takes the following response body and adds a new question to the list of questions:
+    - Takes the following response body and adds a new actor to the list of actors:
     - Request Body:
     ```
         {
-            questions : string,
-            answer : string,
-            difficulty: int,
-            category: string
+            name : string,
+            surname : string,
+            gender: string,
+            age: int
         }
     ```
     - Example Response: 
     ```
-        {
-            question : question,
-            new_question_id: question_id,
-            success: true
-        }
+
     ```
-POST '/questions/search'
+POST '/actors'
 - General:
-    - Takes a search term and fetches all the questions which have a matching substring to the search term
-    - curl -d {"searchTerm":"what"}  -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/questions/search
+    - Takes the following response body and adds a new movie to the list of movies:
     - Request Body:
     ```
         {
-            searchTerm : string
+            title : string,
+            release_date : string,
         }
     ```
-    - Example Response:
-
-    ```
-    "current_category": null,
-    {
-      "answer": "Tom Cruise",
-      "category": 5,
-      "difficulty": 4,
-      "id": 4,
-      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
-    },
-    {
-      "answer": "Edward Scissorhands",
-      "category": 5,
-      "difficulty": 3,
-      "id": 6,
-      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
-    },
-
-    ],
-    "success": true,
-    "total_questions": 2
-    }
- 
+    - Example Response: 
     ```
 
-DELETE '/questions/<int:question_id>'
+    ```
+
+DELETE '/actors/<int:actor_id>'
 
 - General:
-    - Takes a question id and deletes the question associated with the question id
-    - curl -X DELETE http://127.0.0.1:5000/questions/20
+    - Takes a actor id and deletes the actor associated with the actor id
+    - curl -X DELETE https://movieprojectnat.herokuapp.com/actors/20
     - Request Body:
         ```
         {
-            questions_id: question_id
+            actor_id: actor_id
         }
         ```
     - Example Response: 
@@ -321,31 +177,57 @@ DELETE '/questions/<int:question_id>'
 
         ```
 
-POST '/quizzes'
+DELETE '/movies/<int:movie_id>'
+
 - General:
-    - Takes a previous question and a category and returns a random question excluding any previous questions that have been returned
-    - curl -d '{"previous_questions": [], "quiz_category":"Entertainment", "id": 5 }' -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/quizzes
-    - Request Body: 
+    - Takes a movie id and deletes the movie associated with the movie id
+    - curl -X DELETE https://movieprojectnat.herokuapp.com/movies/20
+    - Request Body:
+        ```
+        {
+            movie_id: movie_id
+        }
+        ```
+    - Example Response: 
+
+        ```
+        {
+            'success' : true,
+            'deleted' : 20
+        }
+
+        ```
+
+PATCH '/actors/<int:actor_id>/edit'
+- General:
+    - Takes the following response body and edits a movie in the list of movies:
+    - Request Body:
     ```
-    {
-        "previous_question" : [<list of previously asked question ids>]
-        "quiz_category" : id and type of the category the question will be from in the form of: {type:string, id:int }
-    }
+        {
+            title : string,
+            release_date : string,
+        }
     ```
-    - Example Response:
+    - Example Response: 
     ```
-    "questions": {
-        "answer": "Apollo 13",
-        "category": 5,
-        "difficulty": 4,
-        "id": 2,
-        "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
-    },
-   "success": true
-}
 
     ```
 
+
+PATCH '/movies/<int:movie_id>/edit'
+- General:
+    - Takes the following response body and edits a movie in the list of movies:
+    - Request Body:
+    ```
+        {
+            title : string,
+            release_date : string,
+        }
+    ```
+    - Example Response: 
+    ```
+
+    ```
 
 
 # Error Handling
@@ -353,6 +235,7 @@ POST '/quizzes'
 The APIs handle the following errors: 
 
 - 400: Bad Request
+- 401: Unauthorised
 - 404: Resource Not Found
 - 422: Not Processable 
 
