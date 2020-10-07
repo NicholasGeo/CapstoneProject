@@ -93,7 +93,7 @@ There are three distinct roles for this project:
 The base url for the endpoints is:
 
 ```
-https://movieprojectnat.herokuapp.com
+https://projectactors.herokuapp.com
 ```
 
 To hit the API endpoint you will need to use the following JWT tokens. Please note that these were created on the 07/10/2020 and will expire in 7 days.
@@ -131,7 +131,7 @@ GET '/actors'
         - surname
         - gender
         - age
-- curl https://movieprojectnat.herokuapp.com/actors
+- curl https://projectactors.herokuapp.com/actors
 - Example response: 
 ```
 {
@@ -154,7 +154,7 @@ GET '/actors'
         - id
         - title
         - release_date
-- curl https://movieprojectnat.herokuapp.com/movies
+- curl https://projectactors.herokuapp.com/movies
 -Example response:
 
 ```
@@ -214,7 +214,7 @@ DELETE '/actors/<int:actor_id>'
 
 - General:
     - Takes a actor id and deletes the actor associated with the actor id
-    - curl -X DELETE https://movieprojectnat.herokuapp.com/actors/20
+    - curl -X DELETE https://projectactors.herokuapp.com/actors/20
     - Request Body:
         ```
         {
@@ -235,7 +235,7 @@ DELETE '/movies/<int:movie_id>'
 
 - General:
     - Takes a movie id and deletes the movie associated with the movie id
-    - curl -X DELETE https://movieprojectnat.herokuapp.com/movies/20
+    - curl -X DELETE https://projectactors.herokuapp.com/movies/20
     - Request Body:
         ```
         {
