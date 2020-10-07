@@ -13,6 +13,8 @@ db = SQLAlchemy()
 setup_db(app)
     binds a flask application and a SQLAlchemy service
 '''
+
+
 def setup_db(app, database_path=database_path):
     app.config.from_object('config')
     db.app = app
@@ -22,11 +24,11 @@ def setup_db(app, database_path=database_path):
 
 class Movie(db.Model):
     '''
-    TODO: create the database for the movies 
+    TODO: create the database for the movies
     '''
     __tablename__ = 'movie'
 
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
     release_date = db.Column(db.String)
 
@@ -37,8 +39,6 @@ class Movie(db.Model):
             'release_date': self.release_date
         })
 
-
-
         '''
     insert()
         inserts a new model into a database
@@ -48,6 +48,7 @@ class Movie(db.Model):
             drink = Drink(title=req_title, recipe=req_recipe)
             drink.insert()
     '''
+
     def insert(self):
         db.session.add(self)
         db.session.commit()
@@ -60,6 +61,7 @@ class Movie(db.Model):
             drink = Drink(title=req_title, recipe=req_recipe)
             drink.delete()
     '''
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()
@@ -73,21 +75,20 @@ class Movie(db.Model):
             drink.title = 'Black Coffee'
             drink.update()
     '''
+
     def update(self):
         db.session.commit()
-
 
 
 class Actor(db.Model):
 
     __tablename__ = 'actor'
 
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     surname = db.Column(db.String)
     age = db.Column(db.Integer)
     gender = db.Column(db.String)
-
 
     def format(self):
         return({
@@ -98,8 +99,6 @@ class Actor(db.Model):
             'gender': self.gender,
         })
 
-
-
         '''
     insert()
         inserts a new model into a database
@@ -109,6 +108,7 @@ class Actor(db.Model):
             drink = Drink(title=req_title, recipe=req_recipe)
             drink.insert()
     '''
+
     def insert(self):
         db.session.add(self)
         db.session.commit()
@@ -121,6 +121,7 @@ class Actor(db.Model):
             drink = Drink(title=req_title, recipe=req_recipe)
             drink.delete()
     '''
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()
@@ -134,5 +135,6 @@ class Actor(db.Model):
             drink.title = 'Black Coffee'
             drink.update()
     '''
+
     def update(self):
         db.session.commit()
