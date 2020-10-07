@@ -96,7 +96,6 @@ class Actor(db.Model):
             'surname': self.surname,
             'age': self.age,
             'gender': self.gender,
-            'movie_id': self.movie_id
         })
 
 

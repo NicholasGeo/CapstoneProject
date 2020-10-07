@@ -4,7 +4,8 @@
 
 1. Motivation
 2. Set up project locally
-3. API Endpoints
+3. Authentication
+4. API Endpoints
 
 ## Motivation
 
@@ -71,12 +72,37 @@ Within the "starter" directory, execute:
 python test_app.py
 ```
 
+## Authentication 
+
+Auth0 is used to handle the Authentication and Authorisation for the API endpoints. You may need to set up Auth0 to access the API endpoints when running the app locally and create the roles below along with the permissions required for each API call. 
+
+There are three distinct roles for this project:
+
+1. Casting Assistant
+    - Can view actors and movies
+2. Casting Director 
+    - All permissions a Casting Assistant has and…
+    - Add or delete an actor from the database
+    - Modify actors or movies
+3. Executive Director
+    - All permissions a Casting Director has and…
+    - Add or delete a movie from the database
+
 ## API Endpoints
 
 The base url for the endpoints is:
 
 ```
 https://movieprojectnat.herokuapp.com
+```
+
+To hit the API endpoint you will need to use the following JWT tokens. Please note that these were created on the 07/10/2020 and will expire in 7 days.
+```
+casting_assistant_token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVEaDJNMVFMcmV3WDdhMThsZFZzSyJ9.eyJpc3MiOiJodHRwczovL2Rldi1jNWs1YWs4NC5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWY3OGY4MGE1ZGY0YmEwMDY5MjJlNmZkIiwiYXVkIjoiY2Fwc3RvbmUiLCJpYXQiOjE2MDIwNjU0NTcsImV4cCI6MTYwMjE1MTg1NywiYXpwIjoibVNHZEU0QUVGd3Rxd3VDeEoxTE10UGVaT1Z3ZzlyZEMiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbInJlYWQ6YWN0b3JzIiwicmVhZDptb3ZpZXMiXX0.upLQ1BlKP3BzfQh1DklXFyLof3RiMSqND5Hsz1iYlpMsfzfhPaS-vGBhl-iYLr9n2V7DNCfpt076IVZJ7WdyyMytS-pEapDy0DCMqsstLNiysbidfUZLVnLWEhmWqKOV8Ozt12VhNGsACUHXnVasIIeOLyIwKbG3avEc-BatjoYWegyPVE4l8WJDbn5Saqam-wlA1Z0EGV6uyLn2ETS2OCVDErTn-yG18ZU9HRn0Lnz7nqWSlwKyCvPWKPRUnYhiNfY5q4RxBsedfEcwTN0P7QvFGqQS623Qsp1WM9XJf6HlAwexnm193JWh89mfDD-qJ-w9JEjHw-IeStAsgqtC0Q'
+
+casting_director_token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVEaDJNMVFMcmV3WDdhMThsZFZzSyJ9.eyJpc3MiOiJodHRwczovL2Rldi1jNWs1YWs4NC5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWY3OGY4M2ZhNmFmNjQwMDcxZDkzZGFlIiwiYXVkIjoiY2Fwc3RvbmUiLCJpYXQiOjE2MDIwNjU1MjUsImV4cCI6MTYwMjE1MTkyNSwiYXpwIjoibVNHZEU0QUVGd3Rxd3VDeEoxTE10UGVaT1Z3ZzlyZEMiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImVkaXQ6YWN0b3JzIiwiZWRpdDptb3ZpZXMiLCJyZWFkOmFjdG9ycyIsInJlYWQ6bW92aWVzIl19.XncxdYV8SNLtq-Te3OCKcegq96UEK5Qao2I8QmLUkaHQOSS_VJlT7MelKUkxeM-CmQXWnnn05071nyN77sbEvMz7AaWyUz2gxToxYpiIUi6cuFXYnRm2uRDenHw-h7_969hgmHxClC50yHD18JEuyfiQfHk1UShZiHjvZ-BhhPt03M7sbGM8DmSIzMd648_Rgctkkc0TAjU9nSNMCssFJjX62kQIahzTTbklWqdI2sSFr-lSXrXkgd7keDOQgpXirCffi8mpr39HfNf4F0e4iCTXnB5SbygeQlgsEOsanG-ZPnR4RX62nDv33NzOrA7i74UQTIC_lgI-nQwvE33HJA'
+
+casting_executive_token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVEaDJNMVFMcmV3WDdhMThsZFZzSyJ9.eyJpc3MiOiJodHRwczovL2Rldi1jNWs1YWs4NC5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWY3OGY4NTU1MmNiNTUwMDc4NDg1MzNiIiwiYXVkIjoiY2Fwc3RvbmUiLCJpYXQiOjE2MDIwNjU1OTksImV4cCI6MTYwMjE1MTk5OSwiYXpwIjoibVNHZEU0QUVGd3Rxd3VDeEoxTE10UGVaT1Z3ZzlyZEMiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImNyZWF0ZTphY3RvciIsImNyZWF0ZTptb3ZpZSIsImRlbGV0ZTphY3RvciIsImRlbGV0ZTptb3ZpZSIsImVkaXQ6YWN0b3JzIiwiZWRpdDptb3ZpZXMiLCJyZWFkOmFjdG9ycyIsInJlYWQ6bW92aWVzIl19.iKRB7gwtPkGV92sb_69zspT8fzxc3h-pFRiW5liSoMhPQxSPdJhO6EYIKrjyV-lPkf55NtGTLyIJtGI7HppjWv3ApkzDZ7sqMYDY_kQBL9F5HO17OD2R2EBmKYHwvxIxblxRcZjuVKRMgdysyae5e8LwqRf0da62XkR7VUnw5qd943lK2ohqAaTdwycTBloTC5bFbCVUsykBcs6O81x2dSY0iFz_13xS6W4KGB2HvZSWucYZGTRnPtHt1daOZSm-iIdn5-B6CKfjPKXE0BOp1vZrW2Hio1SscPjuylpySHqX7GI2I7hyrup6318bq7TYyzhI2a9WGSueworDYFXtIA'
 ```
 
 ```
@@ -108,6 +134,16 @@ GET '/actors'
 - curl https://movieprojectnat.herokuapp.com/actors
 - Example response: 
 ```
+{
+    "actor": {
+        "id": 1,
+        "name": "test",
+        "surname": "test"
+        "age": 1
+        "gender": "test"
+    },
+    "success": true
+}
  
 ```
 'GET '/movies'
@@ -122,6 +158,15 @@ GET '/actors'
 -Example response:
 
 ```
+{
+    "movie": {
+        "id": 1,
+        "title": "test",
+        "release_date": "01-01-01"
+
+    },
+    "success": true
+}
   
 ```
 
@@ -139,9 +184,12 @@ POST '/actors'
     ```
     - Example Response: 
     ```
-
+        {
+          'success': True,
+          'actor': new_actor.name
+        }
     ```
-POST '/actors'
+POST '/MOVIES '
 - General:
     - Takes the following response body and adds a new movie to the list of movies:
     - Request Body:
@@ -153,6 +201,12 @@ POST '/actors'
     ```
     - Example Response: 
     ```
+    {
+        "success": True,
+        "title": "test",
+        "release_date": "01-01-01"
+
+    }
 
     ```
 
@@ -210,6 +264,14 @@ PATCH '/actors/<int:actor_id>/edit'
     ```
     - Example Response: 
     ```
+    {
+        "success": True,
+        "movie": {
+            "id": 1,
+            "title": "test",
+            "release_date": "01-01-01"
+        }
+    }
 
     ```
 
@@ -226,6 +288,16 @@ PATCH '/movies/<int:movie_id>/edit'
     ```
     - Example Response: 
     ```
+    {
+        "success": True,
+        "actor": {
+            "id": 1,
+            "name": "test",
+            "surname": "test"
+            "age": 1
+            "gender": "test"
+            }
+    }
 
     ```
 
@@ -249,19 +321,7 @@ The error responses are in the following format:
 }
 ```
 
-## Authentication 
 
-Auth0 is used to handle the Authentication and Authorisation for the API endpoints. You may need to set up Auth0 to access the API endpoints when running the app locally and create the roles below along with the permissions required for each API call. 
 
-There are three distinct roles for this project:
 
-1. Casting Assistant
-    - Can view actors and movies
-2. Casting Director 
-    - All permissions a Casting Assistant has and…
-    - Add or delete an actor from the database
-    - Modify actors or movies
-3. Executive Director
-    - All permissions a Casting Director has and…
-    - Add or delete a movie from the database
 

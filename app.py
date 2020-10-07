@@ -207,7 +207,7 @@ def create_app(test_config=None):
 
       return jsonify({
           'success': True,
-          'movie': updated_actor.format()
+          'actor': updated_actor.format()
       })
 
 
